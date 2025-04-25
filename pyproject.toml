@@ -1,0 +1,17 @@
+[project]
+name = "botdc"
+version = "0.1.0"
+description = "Bot discord"
+authors = [
+    {name = "Enzo",email = "cotiaco2.0@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "discord-py (>=2.5.2,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
