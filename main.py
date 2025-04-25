@@ -93,4 +93,4 @@ async def spam(ctx: commands.Context, mensagem, quantidade: int):
     except Exception as e:
         await ctx.reply(f"Ocorreu um erro: {e}", ephemeral=True, delete_after=10)
 
-bot.run("MTM1NjA0NTcwODE1MDcwNjI3Ng.Ghv0YQ.-9UQErp7PIjtQP_srmGr_S4Oy03JnlQtWtUUKU")
+bot.run("")
