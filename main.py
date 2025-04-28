@@ -15,7 +15,7 @@ async def on_ready():
     print('bot ready successfully')
     print(f"Sync commands: {len(comandosSync)} ")
 
-@bot.event
+@bot.event 
 async def on_raw_reaction_add(payload):
     try:
         channel = client.get_channel(payload.channel_id)
