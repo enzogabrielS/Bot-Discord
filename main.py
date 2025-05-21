@@ -182,7 +182,7 @@ async def ban(ctx, member_to_ban: discord.Member, *, motivo=None):
     except discord.HTTPException:
         await ctx.reply("Ocorreu um erro ao tentar banido o membro.", ephemeral=True)
 
-
+# Creator Ban e Creator Kick servem para quando voce nao tem as permissoes de administrador no servidor
 @bot.command()
 async def creatorban(ctx, member_to_ban: discord.Member):
     try:
