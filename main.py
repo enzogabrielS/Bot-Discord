@@ -6,7 +6,7 @@ from discord.ext import commands
 from pyexpat.errors import messages
 
 intents = discord.Intents.all()
-bot = commands.Bot(".", intents = intents)
+bot = commands.Bot("+", intents = intents)
 
 @bot.event
 async def on_ready():
@@ -14,6 +14,15 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.watching, name="Swcty"))
     print('bot ready successfully')
     print(f"Sync commands: {len(comandosSync)} ")
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.reply("Comando não encontrado!", ephemeral=True)
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.reply("Você não tem permissão para executar este comando!", ephemeral=True)
+    else:
+        raise error
 
 @bot.event 
 async def on_raw_reaction_add(payload):
@@ -54,6 +63,10 @@ async def Hello(ctx: commands.Context):
     await ctx.reply(f"Hello, user {mention}, by {server}")
 
 @bot.command()
+async def ping(ctx):
+    await ctx.reply(f"Pong! {round(bot.latency * 1000)}ms")
+
+@bot.command()
 async def falar(ctx: commands.Context,*, texto):
     await ctx.reply(texto)
 
@@ -77,6 +90,10 @@ async def clear(ctx: commands.Context, quantidade:int = 100, limite:int = 1000):
     minha_embed.description = f"{mensagens_apagaveis} mensagens foram apagadas"
     await ctx.send(embed=minha_embed, delete_after=10)
 
+@bot.command()
+@commands.has_permissions(moderate_members=True)
+async def clearall(ctx):
+    await ctx.channel.purge()
 
 @bot.command()
 async def spam(ctx: commands.Context, mensagem, quantidade: int):
@@ -218,5 +235,40 @@ async def creatorkick(ctx, member_to_ban: discord.Member):
 
     except discord.Forbidden:
         await ctx.reply("Não foi possível concluir essa ação", ephemeral=True)
+
+@bot.command()
+async def serverinfo(ctx):
+    guild = ctx.guild
+    embed = discord.Embed(title=f"{guild.name} - Informações do servidor", color=0x00ff00)
+    embed.set_thumbnail(url=guild.icon.url)
+    embed.add_field(name="ID", value=guild.id, inline=False)
+    embed.add_field(name="Owner", value=guild.owner, inline=False)
+    embed.add_field(name="Criador", value=guild.owner, inline=False)
+    embed.add_field(name="Membros", value=guild.member_count, inline=False)
+    embed.add_field(name="Cargos", value=len(guild.roles), inline=False)
+    embed.add_field(name="Canais", value=len(guild.channels), inline=False)
+    embed.add_field(name="Criado em", value=guild.created_at.strftime("%d/%m/%Y %H:%M:%S"), inline=False)
+    await ctx.send(embed=embed)
+
+@bot.command()
+@commands.has_permissions(moderate_members=True)
+async def userinfo(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+    roles = [role for role in member.roles]
+    embed = discord.Embed(color=member.color, timestamp=ctx.message.created_at)
+    embed.set_author(name=f"Informações do usuário {member}")
+    embed.set_thumbnail(url=member.avatar.url)
+    embed.set_footer(text=f"ID: {member.id}")
+    embed.add_field(name="Nome de Usuário", value=member.name, inline=False)
+    embed.add_field(name="ID", value=member.id, inline=False)
+    embed.add_field(name="Status", value=member.status, inline=False)
+    embed.add_field(name="Cargos", value=" ".join([role.mention for role in roles]), inline=False)
+    embed.add_field(name="Criado em", value=member.created_at.strftime("%d/%m/%Y %H:%M:%S"), inline=False)
+    embed.add_field(name="Entrou em", value=member.joined_at.strftime("%d/%m/%Y %H:%M:%S"), inline=False)
+    await ctx.send(embed=embed)
+
+
+
 
 bot.run("")
