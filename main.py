@@ -74,7 +74,6 @@ async def ping(ctx):
 async def falar(ctx: commands.Context,*, texto):
     await ctx.reply(texto)
 
-
 @bot.command()
 async def clear(ctx: commands.Context, quantidade:int = 100, limite:int = 1000):
     agora = datetime.now(timezone.utc)
