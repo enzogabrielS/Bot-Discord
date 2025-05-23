@@ -2,11 +2,12 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 from email.mime import image
 import discord
+from IPython import embed
 from discord.ext import commands
 from pyexpat.errors import messages
 
 intents = discord.Intents.all()
-bot = commands.Bot("?", intents = intents)
+bot = commands.Bot("!", intents = intents)
 
 @bot.event
 async def on_ready():
@@ -64,7 +65,10 @@ async def Hello(ctx: commands.Context):
 
 @bot.command()
 async def ping(ctx):
-    await ctx.reply(f"Pong! {round(bot.latency * 1000)}ms")
+    embed = discord.Embed(title="🏓Pong!", color=0x00ff00)
+    embed.add_field(name="Latência do bot", value=f"{round(bot.latency * 1000)}ms")
+    await ctx.send(embed=embed)
+    print(f"Latência do bot: {round(bot.latency * 1000)}ms")
 
 @bot.command()
 async def falar(ctx: commands.Context,*, texto):
@@ -268,7 +272,49 @@ async def userinfo(ctx, member: discord.Member = None):
     embed.add_field(name="Entrou em", value=member.joined_at.strftime("%d/%m/%Y %H:%M:%S"), inline=False)
     await ctx.send(embed=embed)
 
+@bot.command()
+async def avatar(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+    embed = discord.Embed(title=f"{member.name}'s avatar")
+    embed.set_image(url=member.avatar.url)
+    await ctx.send(embed=embed)
 
 
+@bot.command()
+async def ajuda(ctx):
+    try:
+        view = discord.ui.View()
+        botao = discord.ui.Button(
+            label="Source do bot!", 
+            url="https://github.com/enzogabrielS/Bot-Discord",
+            style=discord.ButtonStyle.green
+        )
+        embed = discord.Embed(
+            title="Comandos do Bot", 
+            description="Comandos disponíveis no bot:", 
+            color=0x00ff00
+        )
+        embed.add_field(name="!ping", value="Verifica se o bot está online.", inline=False)
+        embed.add_field(name="!clear [quantidade]", value="Limpa a quantidade de mensagens especificada.", inline=False)
+        embed.add_field(name="!spam [mensagem] [quantidade]", value="Envia a mensagem especificada [quantidade] vezes.", inline=False)
+        embed.add_field(name="!status", value="Ativa ou desativa o status do bot.", inline=False)
+        embed.add_field(name="!clearall", value="Limpa todas as mensagens do canal.", inline=False)
+        embed.add_field(name="!kick [membro] [motivo](opcional)", value="Expulsa um membro do servidor.", inline=False)
+        embed.add_field(name="!ban [membro] [motivo](opcional)", value="Bane um membro do servidor.", inline=False)
+        embed.add_field(name="!serverinfo", value="Exibe informações do servidor.", inline=False)
+        embed.add_field(name="!userinfo [membro] (opcional)", value="Exibe informações do usuário.", inline=False)
+        embed.add_field(name="!avatar [membro] (opcional)", value="Exibe o avatar do usuário.", inline=False)
+        embed.add_field(name="!falar [texto]", value="Fala o texto especificado.", inline=False)
+        embed.add_field(name="!ajuda", value="Exibe essa mensagem de ajuda.", inline=False)
+        embed.set_footer(text="Desenvolvido por enzo!")
+        view.add_item(botao)
+        await ctx.send(embed=embed, view=view)
+    except discord.Forbidden:
+        await ctx.reply("Não foi possível concluir essa ação", ephemeral=True)
+    except discord.HTTPException:
+        await ctx.reply("Erro ao enviar a mensagem. Tente novamente.", ephemeral=True)
+    except Exception as e:
+        await ctx.reply(f"Ocorreu um erro inesperado: {str(e)}", ephemeral=True)
 
-bot.run("")
+bot.run("MTM1NjA0NTcwODE1MDcwNjI3Ng.G0u1Vm.g8XSjt8QvhYp3QDmmnSoJ7D_2E9njcDDlpnhJk")
