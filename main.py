@@ -316,4 +316,4 @@ async def ajuda(ctx):
     except Exception as e:
         await ctx.reply(f"Ocorreu um erro inesperado: {str(e)}", ephemeral=True)
 
-bot.run("MTM1NjA0NTcwODE1MDcwNjI3Ng.G0u1Vm.g8XSjt8QvhYp3QDmmnSoJ7D_2E9njcDDlpnhJk")
+bot.run("")
