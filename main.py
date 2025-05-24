@@ -56,7 +56,6 @@ async def on_raw_reaction_add(payload):
     except Exception as e:
         print(f"Erro inesperado ao processar reação: {e}")
 
-
 @bot.command()
 async def Hello(ctx: commands.Context):
     mention = ctx.author.mention
