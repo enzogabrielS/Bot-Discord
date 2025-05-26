@@ -117,7 +117,6 @@ async def spam(ctx: commands.Context, mensagem, quantidade: int):
 async def status(ctx: commands.Context):
     await bot.change_presence(status=discord.Status.idle, activity=discord.Game("@ezzgabb"))
 
-
 @bot.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member_to_kick: discord.Member, *, motivo=None):
