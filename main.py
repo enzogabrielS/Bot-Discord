@@ -277,7 +277,6 @@ async def avatar(ctx, member: discord.Member = None):
     embed.set_image(url=member.avatar.url)
     await ctx.send(embed=embed)
 
-
 @bot.command()
 async def ajuda(ctx):
     try:
