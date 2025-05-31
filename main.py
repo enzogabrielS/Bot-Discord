@@ -137,7 +137,6 @@ async def kick(ctx, member_to_kick: discord.Member, *, motivo=None):
     if not channel_to_send:
         await ctx.reply(f"Canal de logs não encontrado (ID: {channel_send_id})", ephemeral=True)
         return
-
     try:
         await member_to_kick.kick(reason=motivo)
 
