@@ -157,7 +157,6 @@ async def kick(ctx, member_to_kick: discord.Member, *, motivo=None):
     except discord.HTTPException:
         await ctx.reply("Ocorreu um erro ao tentar expulsar o membro.", ephemeral=True)
 
-
 @bot.command()
 @commands.has_permissions(moderate_members=True)
 async def ban(ctx, member_to_ban: discord.Member, *, motivo=None):
