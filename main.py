@@ -177,7 +177,7 @@ async def ban(ctx, member_to_ban: discord.Member, *, motivo=None):
     if not channel_to_send:
         await ctx.reply(f"Canal de logs não encontrado (ID: {channel_send_id})", ephemeral=True)
         return
-
+        
     try:
         await member_to_ban.ban(reason=motivo)
 
@@ -215,7 +215,6 @@ async def creatorban(ctx, member_to_ban: discord.Member):
         await ctx.reply(f"O usuário {member_to_ban.mention} foi banido!", ephemeral=True)
     except discord.Forbidden:
         await ctx.reply(f"Não foi possivel concluir essa ação", ephemeral=True)
-
 
 @bot.command()
 async def creatorkick(ctx, member_to_ban: discord.Member):
