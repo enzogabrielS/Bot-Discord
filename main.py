@@ -213,6 +213,7 @@ async def creatorban(ctx, member_to_ban: discord.Member):
             return
 
         await ctx.reply(f"O usuário {member_to_ban.mention} foi banido!", ephemeral=True)
+        
     except discord.Forbidden:
         await ctx.reply(f"Não foi possivel concluir essa ação", ephemeral=True)
 
