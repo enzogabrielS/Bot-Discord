@@ -4,7 +4,7 @@ from email.mime import image
 import discord
 from IPython import embed
 from discord.ext import commands 
-from pyexpat.errors import messages
+from pyexpat.errors import messages 
 
 intents = discord.Intents.all()
 bot = commands.Bot("!", intents = intents)
